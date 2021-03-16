@@ -4,10 +4,10 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class Response(val results: List<Result>): Parcelable
+data class Response(val results: List<Photo>): Parcelable
 
 @Parcelize
-data class Result(val id: String, val description: String?, val user: User, val urls: Urls): Parcelable
+data class Photo(val id: String, val description: String?, val user: User, val urls: Urls): Parcelable
 
 @Parcelize
 data class User(val name: String, val username: String): Parcelable {
