@@ -5,6 +5,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.florian_walther.imagesearch.GalleryViewModel
+import com.florian_walther.imagesearch.LoadAdapter
 import com.florian_walther.imagesearch.R
 import com.florian_walther.imagesearch.UnsplashAdapter
 import com.florian_walther.imagesearch.databinding.FragmentGalleryBinding
@@ -26,7 +27,9 @@ class GalleryFragment: Fragment(R.layout.fragment_gallery) {
         val adapter = UnsplashAdapter()
         binding.apply {
             recyclerView.setHasFixedSize(true)
-            recyclerView.adapter = adapter
+            recyclerView.adapter = adapter.withLoadStateHeaderAndFooter(
+                header=LoadAdapter { adapter.retry() }, footer=LoadAdapter { adapter.retry() }
+            )
         }
 
         viewModel.photos.observe(viewLifecycleOwner) {
