@@ -5,8 +5,10 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.paging.LoadState
 import com.florian_walther.imagesearch.GalleryViewModel
 import com.florian_walther.imagesearch.LoadAdapter
 import com.florian_walther.imagesearch.R
@@ -31,13 +33,35 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery) {
         val adapter = UnsplashAdapter()
         binding.apply {
             recyclerView.setHasFixedSize(true)
+            // prevent old data from flashing right before new data is displayed
+            recyclerView.itemAnimator = null
             recyclerView.adapter = adapter.withLoadStateHeaderAndFooter(
                 header = LoadAdapter { adapter.retry() }, footer = LoadAdapter { adapter.retry() }
             )
+            btnRetry.setOnClickListener {
+                adapter.retry()
+            }
         }
 
         viewModel.photos.observe(viewLifecycleOwner) {
             adapter.submitData(viewLifecycleOwner.lifecycle, it)
+        }
+
+        adapter.addLoadStateListener {
+            binding.apply {
+                progressBar.isVisible = it.source.refresh is LoadState.Loading
+                recyclerView.isVisible = it.source.refresh is LoadState.NotLoading
+                btnRetry.isVisible = it.source.refresh is LoadState.Error
+                tvError.isVisible = it.source.refresh is LoadState.Error
+
+                // page is not loading AND there's no more data to load AND there's no item in the adapter
+                if (it.source.refresh is LoadState.NotLoading && it.append.endOfPaginationReached && adapter.itemCount < 1) {
+                    recyclerView.isVisible = false
+                    tvEmpty.isVisible = true
+                } else {
+                    tvEmpty.isVisible = false
+                }
+            }
         }
     }
 
