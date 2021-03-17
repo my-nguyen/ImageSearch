@@ -7,8 +7,8 @@
     <fragment
         android:id="@+id/galleryFragment"
         android:name="com.florian_walther.mvvmimagesearch.GalleryFragment"
-        android:label="fragment_gallery"
-        tools:layout="@layout/fragment_gallery" >
+        android:label="Gallery"
+        tools:layout="@layout/fragment_gallery">
         <action
             android:id="@+id/action_galleryFragment2_to_detailFragment"
             app:destination="@id/detailFragment" />
@@ -16,8 +16,8 @@
     <fragment
         android:id="@+id/detailFragment"
         android:name="com.florian_walther.imagesearch.DetailFragment"
-        android:label="fragment_detail"
-        tools:layout="@layout/fragment_detail" >
+        android:label="Photo"
+        tools:layout="@layout/fragment_detail">
         <argument
             android:name="photo"
             app:argType="com.florian_walther.mvvmimagesearch.Photo" />

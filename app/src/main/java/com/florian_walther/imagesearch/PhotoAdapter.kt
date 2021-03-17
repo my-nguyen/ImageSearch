@@ -43,6 +43,7 @@ class PhotoAdapter(val listener: OnItemClickListener): PagingDataAdapter<Photo, 
         fun bind(photo: Photo) {
             binding.apply {
                 val transition = DrawableTransitionOptions.withCrossFade()
+                // in an Adapter, use itemView for context since there's no reference to a Fragment or Activity
                 Glide.with(itemView)
                     .load(photo.urls.regular)
                     .centerCrop()

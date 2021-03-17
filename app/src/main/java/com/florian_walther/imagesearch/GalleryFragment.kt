@@ -12,8 +12,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import com.florian_walther.imagesearch.GalleryViewModel
 import com.florian_walther.imagesearch.LoadAdapter
-import com.florian_walther.imagesearch.R
 import com.florian_walther.imagesearch.PhotoAdapter
+import com.florian_walther.imagesearch.R
 import com.florian_walther.imagesearch.databinding.FragmentGalleryBinding
 import dagger.hilt.android.AndroidEntryPoint
 
