@@ -10,7 +10,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.florian_walther.imagesearch.databinding.ItemUnsplashPhotoBinding
 import com.florian_walther.mvvmimagesearch.Photo
 
-class UnsplashAdapter: PagingDataAdapter<Photo, UnsplashAdapter.ViewHolder>(PHOTO_COMPARATOR) {
+class PhotoAdapter(val listener: OnItemClickListener): PagingDataAdapter<Photo, PhotoAdapter.ViewHolder>(PHOTO_COMPARATOR) {
 
     companion object {
         val PHOTO_COMPARATOR = object: DiffUtil.ItemCallback<Photo>() {
@@ -21,7 +21,25 @@ class UnsplashAdapter: PagingDataAdapter<Photo, UnsplashAdapter.ViewHolder>(PHOT
                 oldItem == newItem
         }
     }
-    class ViewHolder(val binding: ItemUnsplashPhotoBinding): RecyclerView.ViewHolder(binding.root) {
+
+    interface OnItemClickListener {
+        fun onItemClick(photo: Photo)
+    }
+
+    inner class ViewHolder(val binding: ItemUnsplashPhotoBinding): RecyclerView.ViewHolder(binding.root) {
+
+        init {
+            binding.root.setOnClickListener {
+                val position = bindingAdapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    val item = getItem(position)
+                    if (item != null) {
+                        listener.onItemClick(item)
+                    }
+                }
+            }
+        }
+
         fun bind(photo: Photo) {
             binding.apply {
                 val transition = DrawableTransitionOptions.withCrossFade()

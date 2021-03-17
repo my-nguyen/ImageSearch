@@ -8,16 +8,17 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import com.florian_walther.imagesearch.GalleryViewModel
 import com.florian_walther.imagesearch.LoadAdapter
 import com.florian_walther.imagesearch.R
-import com.florian_walther.imagesearch.UnsplashAdapter
+import com.florian_walther.imagesearch.PhotoAdapter
 import com.florian_walther.imagesearch.databinding.FragmentGalleryBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class GalleryFragment : Fragment(R.layout.fragment_gallery) {
+class GalleryFragment : Fragment(R.layout.fragment_gallery), PhotoAdapter.OnItemClickListener {
 
     val viewModel by viewModels<GalleryViewModel>()
     var _binding: FragmentGalleryBinding? = null
@@ -30,7 +31,7 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery) {
         setHasOptionsMenu(true)
         _binding = FragmentGalleryBinding.bind(view)
 
-        val adapter = UnsplashAdapter()
+        val adapter = PhotoAdapter(this)
         binding.apply {
             recyclerView.setHasFixedSize(true)
             // prevent old data from flashing right before new data is displayed
@@ -68,6 +69,11 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery) {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onItemClick(photo: Photo) {
+        val action = GalleryFragmentDirections.actionGalleryFragment2ToDetailFragment(photo)
+        findNavController().navigate(action)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
