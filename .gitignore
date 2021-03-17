@@ -13,6 +13,11 @@
 /.idea/jarRepositories.xml
 /.idea/misc.xml
 /.idea/vcs.xml
+/.idea/codeStyles/Project.xml
+/.idea/codeStyles/codeStyleConfig.xml
+/.idea/inspectionProfiles/Project_Default.xml
+/.idea/markdown-navigator-enh.xml
+/.idea/markdown-navigator.xml
 .DS_Store
 /build
 /captures
